@@ -1,0 +1,230 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="color-scheme" content="light dark" />
+    <title>My Official Mart — Shop</title>
+    <script>
+      (() => {
+        try {
+          const t = localStorage.getItem("mom-theme") || "auto";
+          const dark =
+            t === "dark" ||
+            (t === "auto" &&
+              matchMedia("(prefers-color-scheme: dark)").matches);
+          document.documentElement.dataset.theme = dark ? "dark" : "light";
+          document.documentElement.dataset.themeMode = t;
+        } catch (e) {
+          document.documentElement.dataset.theme = "light";
+          document.documentElement.dataset.themeMode = "auto";
+        }
+      })();
+    </script>
+    <link rel="stylesheet" href="css/style.css" />
+    <script defer src="js/main.js"></script>
+  </head>
+  <body>
+    <header class="site-header">
+      <div class="nav-wrap">
+        <a class="brand" href="index.html"
+          ><svg
+            class="brand-logo"
+            viewBox="0 0 64 64"
+            role="img"
+            aria-label="My Mart logo"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <defs>
+              <linearGradient id="mmg" x1="0" y1="0" x2="1" y2="1">
+                <stop offset="0" stop-color="#83e2c2" />
+                <stop offset="1" stop-color="#179b79" />
+              </linearGradient>
+            </defs>
+            <rect x="2" y="2" width="60" height="60" rx="19" fill="url(#mmg)" />
+            <path
+              d="M19 25h26l-2.4 25H21.4L19 25Z"
+              fill="#10241d"
+              opacity=".96"
+            />
+            <path
+              d="M25 26v-5a7 7 0 0 1 14 0v5"
+              fill="none"
+              stroke="#10241d"
+              stroke-width="4"
+              stroke-linecap="round"
+            />
+            <path
+              d="m24 35 5 5 11-11"
+              fill="none"
+              stroke="#83e2c2"
+              stroke-width="3.6"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            />
+            <circle cx="47" cy="16" r="5" fill="#f8fffb" /></svg
+          ><span>My Official Mart</span></a
+        >
+        <form id="search-form" class="search-box">
+          <input
+            id="search-input"
+            type="search"
+            placeholder="Search products..."
+            aria-label="Search products"
+          /><button aria-label="Search">⌕</button>
+        </form>
+        <nav class="nav-links">
+          <a class="active" href="index.html">Home</a
+          ><a href="wishlist.html"
+            >Wishlist <span class="badge" id="wishlist-count">0</span></a
+          ><a href="cart.html"
+            >Cart <span class="badge" id="cart-count">0</span></a
+          ><a href="login.html" id="account-link">Login</a
+          ><button
+            class="theme-toggle"
+            id="theme-toggle"
+            type="button"
+            aria-label="Change theme"
+          >
+            <span id="theme-icon">◐</span><span class="theme-label">Auto</span>
+          </button>
+        </nav>
+      </div>
+    </header>
+    <section class="hero">
+      <div class="hero-inner">
+        <p class="eyebrow">EVERYDAY FINDS · BETTER PRICES</p>
+        <h1>Good things. Great prices.</h1>
+        <p>Discover everyday essentials picked just for you.</p>
+        <a class="btn btn-primary" href="#shop"
+          >Explore products <span>→</span></a
+        >
+      </div>
+      <div class="hero-orb" aria-hidden="true">
+        <svg
+          class="hero-logo"
+          viewBox="0 0 64 64"
+          role="img"
+          aria-label="My Mart logo"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <defs>
+            <linearGradient id="heroMmg" x1="0" y1="0" x2="1" y2="1">
+              <stop offset="0" stop-color="#83e2c2" />
+              <stop offset="1" stop-color="#179b79" />
+            </linearGradient>
+          </defs>
+          <rect
+            x="2"
+            y="2"
+            width="60"
+            height="60"
+            rx="19"
+            fill="url(#heroMmg)"
+          />
+          <path
+            d="M19 25h26l-2.4 25H21.4L19 25Z"
+            fill="#10241d"
+            opacity=".96"
+          />
+          <path
+            d="M25 26v-5a7 7 0 0 1 14 0v5"
+            fill="none"
+            stroke="#10241d"
+            stroke-width="4"
+            stroke-linecap="round"
+          />
+          <path
+            d="m24 35 5 5 11-11"
+            fill="none"
+            stroke="#83e2c2"
+            stroke-width="3.6"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+          />
+          <circle cx="47" cy="16" r="5" fill="#f8fffb" />
+        </svg>
+      </div>
+    </section>
+    <main id="shop" class="container page-space">
+      <div class="section-heading">
+        <div>
+          <p class="eyebrow">OUR COLLECTION</p>
+          <h2>Shop products</h2>
+        </div>
+        <span id="result-count" class="muted">Loading products…</span>
+      </div>
+      <div
+        id="category-filters"
+        class="filters"
+        aria-label="Filter by category"
+      >
+        <button class="filter-chip selected" data-category="all">
+          All products
+        </button>
+      </div>
+      <div id="products-container" class="product-grid">
+        <div class="loading-card">Loading products…</div>
+      </div>
+      <div id="load-error" class="notice hidden"></div>
+    </main>
+    <footer class="footer">
+      <div class="container footer-inner">
+        <div>
+          <a class="brand footer-brand" href="index.html"
+            ><svg
+              class="brand-logo"
+              viewBox="0 0 64 64"
+              role="img"
+              aria-label="My Mart logo"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <defs>
+                <linearGradient id="mmg" x1="0" y1="0" x2="1" y2="1">
+                  <stop offset="0" stop-color="#83e2c2" />
+                  <stop offset="1" stop-color="#179b79" />
+                </linearGradient>
+              </defs>
+              <rect
+                x="2"
+                y="2"
+                width="60"
+                height="60"
+                rx="19"
+                fill="url(#mmg)"
+              />
+              <path
+                d="M19 25h26l-2.4 25H21.4L19 25Z"
+                fill="#10241d"
+                opacity=".96"
+              />
+              <path
+                d="M25 26v-5a7 7 0 0 1 14 0v5"
+                fill="none"
+                stroke="#10241d"
+                stroke-width="4"
+                stroke-linecap="round"
+              />
+              <path
+                d="m24 35 5 5 11-11"
+                fill="none"
+                stroke="#83e2c2"
+                stroke-width="3.6"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              />
+              <circle cx="47" cy="16" r="5" fill="#f8fffb" /></svg
+            ><span>My Official Mart</span></a
+          >
+          <p>Simple shopping, made easy.</p>
+        </div>
+        <div class="footer-links">
+          <a href="index.html">Home</a><a href="wishlist.html">Wishlist</a
+          ><a href="cart.html">Cart</a><a href="login.html">Account</a>
+        </div>
+        <p class="copyright">© 2026 My Official Mart</p>
+      </div>
+    </footer>
+    <div id="toast" class="toast" role="status" aria-live="polite"></div>
+  </body>
+</html>
